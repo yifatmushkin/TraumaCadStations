@@ -153,17 +153,22 @@
   .qa .qicon{font-size:26px;flex:none;}
   .qa .qcode{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;color:#FFC24B;direction:ltr;text-align:left;}
   .qa .qsub{font-size:14px;color:var(--muted);margin-top:2px;}
-  .guess{display:flex;gap:8px;margin-bottom:10px;}
-  .gbtn{flex:1;cursor:pointer;font-family:"Rubik";font-weight:700;font-size:13.5px;padding:9px;border-radius:10px;border:2px solid var(--line);background:var(--bg2);color:var(--muted);transition:.16s;}
-  .gbtn:hover{border-color:var(--cyan-dim);color:var(--text);}
-  .gbtn.sel{color:#04121A;background:var(--cyan);border-color:var(--cyan);}
-  .runtest{cursor:pointer;font-family:"Rubik";font-weight:700;font-size:14px;padding:9px 16px;border-radius:10px;border:none;background:var(--amber);color:#1A1300;transition:.16s;}
+  .runtest{cursor:pointer;font-family:"Rubik";font-weight:700;font-size:14px;padding:9px 16px;border-radius:10px;border:none;background:var(--amber);color:#1A1300;transition:.16s;display:block;width:100%;}
   .runtest:hover{filter:brightness(1.06);}
-  .qresult{display:none;margin-top:11px;padding:10px 12px;border-radius:10px;font-size:14px;line-height:1.5;font-weight:700;}
+  .runtest.ran{background:var(--surface);color:var(--muted);cursor:default;}
+  .decide{display:none;gap:8px;margin-top:10px;}
+  .qa.ran .decide{display:flex;}
+  .dbtn{flex:1;cursor:pointer;font-family:"Rubik";font-weight:700;font-size:14px;padding:11px;border-radius:10px;border:2px solid var(--line);background:var(--bg2);color:var(--muted);transition:.16s;}
+  .dbtn.bug:hover{border-color:var(--red);color:var(--red);}
+  .dbtn.ok:hover{border-color:var(--green);color:var(--green);}
+  .dbtn.picked.bug{border-color:var(--red);background:rgba(255,92,108,.15);color:var(--red);}
+  .dbtn.picked.ok{border-color:var(--green);background:rgba(61,220,151,.15);color:var(--green);}
+  .qa.done .dbtn{cursor:default;}
+  .qa.done .dbtn:not(.picked){opacity:.4;}
+  .qresult{display:none;margin-top:11px;padding:11px 13px;border-radius:10px;font-size:14px;line-height:1.55;font-weight:500;}
   .qa.done .qresult{display:block;}
-  .qresult.caught{background:rgba(61,220,151,.12);border:1px solid rgba(61,220,151,.4);color:var(--green);}
-  .qresult.slip{background:rgba(255,92,108,.14);border:1px solid rgba(255,92,108,.45);color:var(--red);}
-  .qresult.valid{background:rgba(39,224,242,.1);border:1px solid rgba(39,224,242,.35);color:var(--cyan);}
+  .qresult.correct{background:rgba(61,220,151,.12);border:1px solid rgba(61,220,151,.4);color:#aaf3cc;}
+  .qresult.wrong{background:rgba(255,92,108,.12);border:1px solid rgba(255,92,108,.4);color:#ffb5be;}
 
   /* station 6 regulation */
   .dossiers{display:grid;gap:14px;}
@@ -172,13 +177,10 @@
     border:1px solid var(--line);border-radius:18px;padding:18px;
     position:relative;overflow:hidden;
   }
-  .dossier .dtop{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
+  .dossier .dtop{display:flex;gap:12px;align-items:center;margin-bottom:12px;}
   .dossier .dicon{font-size:32px;flex:none;}
-  .dossier .dtitle{font-family:"Rubik";font-weight:700;font-size:17px;margin-bottom:4px;}
-  .dossier .dfile{
-    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--muted);
-    margin-bottom:10px;direction:ltr;text-align:left;
-  }
+  .dossier .dtitle{font-family:"Rubik";font-weight:700;font-size:17px;}
+  .dossier .dfile{display:none;}
   .dossier .dbody{
     background:rgba(0,0,0,.25);border:1px dashed var(--line);border-radius:10px;
     padding:12px 14px;margin-bottom:14px;font-size:15px;line-height:1.55;color:#D6DEEC;
@@ -207,6 +209,32 @@
   .verdict-box .big{font-family:"Rubik";font-weight:900;font-size:18px;letter-spacing:2px;display:block;margin-bottom:6px;}
   .verdict-box .note{font-weight:400;color:#D6DEEC;}
 
+  /* station 7 office life */
+  .poll{
+    background:linear-gradient(180deg,var(--surface),var(--surface2));
+    border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px;
+  }
+  .poll .qtitle{display:flex;gap:11px;align-items:flex-start;margin-bottom:14px;}
+  .poll .qemoji{font-size:30px;flex:none;}
+  .poll .qtext{font-family:"Rubik";font-weight:700;font-size:17px;line-height:1.4;}
+  .poll-opts{display:grid;gap:8px;grid-template-columns:1fr 1fr;}
+  @media(max-width:540px){.poll-opts{grid-template-columns:1fr;}}
+  .popt{
+    cursor:pointer;font-family:"Heebo",sans-serif;font-weight:500;font-size:14.5px;
+    padding:11px 14px;border-radius:12px;border:2px solid var(--line);
+    background:var(--bg2);color:#D6DEEC;transition:.18s;text-align:start;
+  }
+  .popt:hover{border-color:var(--cyan-dim);background:var(--surface);}
+  .popt.picked{border-color:var(--cyan);background:rgba(39,224,242,.12);color:#fff;}
+  .popt.reveal-correct{border-color:var(--green);background:rgba(61,220,151,.14);color:#fff;position:relative;}
+  .popt.reveal-correct::after{content:"✓";position:absolute;inset-inline-end:12px;top:50%;transform:translateY(-50%);color:var(--green);font-weight:900;font-size:18px;}
+  .poll .reveal-note{
+    display:none;margin-top:12px;padding:12px 14px;border-radius:12px;
+    background:rgba(255,194,75,.1);border:1px solid rgba(255,194,75,.35);
+    font-size:14.5px;line-height:1.55;color:#FFE2A6;
+  }
+  .poll.done .reveal-note{display:block;}
+
   /* nav */
   .navbar{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px clamp(16px,5vw,40px);background:linear-gradient(0deg, rgba(8,11,22,.97), rgba(8,11,22,.6) 70%, transparent);backdrop-filter:blur(6px);}
   .navbtn{font-family:"Rubik";font-weight:700;font-size:15px;cursor:pointer;padding:13px 22px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:.2s;display:flex;align-items:center;gap:8px;}
@@ -230,6 +258,7 @@
     <div class="pill" data-go="3"><span class="num">04</span> פיתוח</div>
     <div class="pill" data-go="4"><span class="num">05</span> QA</div>
     <div class="pill" data-go="5"><span class="num">06</span> רגולציה</div>
+    <div class="pill" data-go="6"><span class="num">07</span> מאחורי הקלעים</div>
   </div>
 </div>
 
@@ -279,9 +308,9 @@
         <div class="answer"><b>שיפור נראות.</b> חשוב לתדמית, אבל לא משנה אם הרופא יצליח לבצע את הניתוח. אפשר לחכות לזה.</div>
       </div>
       <div class="feat" data-correct="nice">
-        <div class="ftop"><div class="ficon">🌈</div><div><div class="ftitle">צבע ממשק לפי הצבע האהוב</div><div class="fsub">שכל רופא יוכל לבחור את צבע המסך האהוב עליו.</div></div></div>
+        <div class="ftop"><div class="ficon">🎉</div><div><div class="ftitle">אנימציית קונפטי בסיום ניתוח</div><div class="fsub">קונפטי צבעוני יקפוץ על המסך אחרי שהרופא מסיים לתכנן ניתוח בהצלחה.</div></div></div>
         <div class="chips"><div class="chip" data-c="must">🔴 חובה</div><div class="chip" data-c="look">🟡 שיפור נראות</div><div class="chip" data-c="nice">🟢 כיף שיהיה</div></div>
-        <div class="answer"><b>כיף שיהיה.</b> גימיק נחמד, אבל אף אחד לא ינתח טוב יותר בגללו. זה הדבר האחרון שבונים — אם בכלל.</div>
+        <div class="answer"><b>כיף שיהיה.</b> גימיק מצחיק שאף אחד לא ביקש. הרופא יסיים את הניתוח באותה הצלחה גם בלי קונפטי 🎊. זה הדבר האחרון שבונים — אם בכלל.</div>
       </div>
     </div>
     <button class="reveal-btn" id="checkBtn">בדקו את עצמכם ✓</button>
@@ -349,40 +378,52 @@
   <section class="slide" id="s4">
     <span class="eyebrow"><span class="station-num">05</span> 🔍 בדיקות תוכנה · QA</span>
     <h1 class="title">ציידי <span class="em">הבאגים</span></h1>
-    <p class="lead">המפתח בנה — אתם תנסו לשבור. נכניס ערכים מטורפים שרופא עלול להקליד בטעות. השאלה: <b>האם המערכת תתפוס את הטעות, או שהיא תחמוק בשקט?</b></p>
-    <div class="mission"><b>המשימה שלכם:</b> לכל בדיקה — נחשו קודם אם המערכת תתפוס, ואז לחצו <b>הרץ בדיקה</b> וראו על הרנטגן מה קרה. <b>שימו לב — באג אחד מחליק בשקט!</b></div>
+    <p class="lead">בודק QA מנסה דברים שונים במערכת — ואחרי כל ניסיון מחליט: התוצאה הגיונית, או שמשהו לא בסדר? עכשיו תורכם 🕵️</p>
+    <div class="mission"><b>המשימה שלכם:</b> לכל מקרה — לחצו <b>הרץ ▶</b>, ראו מה קורה ברנטגן, ואז החליטו: <b style="color:var(--red)">🐛 באג</b> או <b style="color:var(--green)">✅ לא באג</b>?</div>
     <div class="qa-wrap">
       <div>
         <div class="xray-box"><div class="xray-stack"><div class="xray-bg"></div><div class="implant-overlay" id="implant5"></div></div></div>
-        <div class="status info" id="qastatus">בחרו בדיקה והריצו אותה ▶</div>
+        <div class="status info" id="qastatus">לחצו "הרץ" ליד אחד המקרים ▶</div>
       </div>
       <div id="qaList">
-        <div class="qa" data-effect="giant" data-expect="catch" data-rclass="caught" data-result="🛡️ נחסם! המערכת זיהתה גודל לא ריאלי והקפיצה התרעה. בדיוק מה שצריך.">
-          <div class="qtop"><span class="qicon">🐘</span><div><div class="qcode">implant.size = 900</div><div class="qsub">שתל בגודל של פיל</div></div></div>
-          <div class="guess"><button class="gbtn" data-g="catch">🛡️ תתפוס</button><button class="gbtn" data-g="slip">😬 תחמוק</button></div>
-          <button class="runtest">הרץ בדיקה ▶</button><div class="qresult"></div>
+
+        <div class="qa" data-effect="negative" data-correct="ok"
+             data-correctnote="✅ נכון! המערכת זיהתה שמספר שלילי לא הגיוני וחסמה את הקלט. זאת התנהגות תקינה — בדיוק מה שצריך לקרות."
+             data-wrongnote="🤔 כדאי לחשוב שוב. המערכת הציגה הודעה שאי אפשר להזין מספר שלילי — והשתל נשאר כמו שהיה. זאת תגובה נכונה של המערכת, לא באג.">
+          <div class="qtop"><span class="qicon">➖</span><div><div class="qcode">implant.size = -50</div><div class="qsub">רופא הקליד גודל שתל שלילי</div></div></div>
+          <button class="runtest">הרץ ▶</button>
+          <div class="decide">
+            <button class="dbtn bug" data-pick="bug">🐛 באג</button>
+            <button class="dbtn ok" data-pick="ok">✅ לא באג</button>
+          </div>
+          <div class="qresult"></div>
         </div>
-        <div class="qa" data-effect="negative" data-expect="catch" data-rclass="caught" data-result="🛡️ נחסם! אי אפשר גודל שלילי. התרעה אדומה עלתה מיד.">
-          <div class="qtop"><span class="qicon">➖</span><div><div class="qcode">implant.size = -50</div><div class="qsub">מידה שלילית</div></div></div>
-          <div class="guess"><button class="gbtn" data-g="catch">🛡️ תתפוס</button><button class="gbtn" data-g="slip">😬 תחמוק</button></div>
-          <button class="runtest">הרץ בדיקה ▶</button><div class="qresult"></div>
+
+        <div class="qa" data-effect="wrongcolor" data-correct="bug"
+             data-correctnote="🎯 תפסתם באג! הרופא ביקש כחול והמערכת נתנה אדום. זה באג: התוכנה לא עושה מה שהמשתמש ביקש. צריך לתקן."
+             data-wrongnote="🤔 הסתכלו שוב על הצבע. הרופא בחר כחול — אבל השתל יצא אדום. התוכנה הציגה משהו אחר ממה שהרופא ביקש. זה כן באג.">
+          <div class="qtop"><span class="qicon">🎨</span><div><div class="qcode">implant.color = "blue"</div><div class="qsub">רופא בחר צבע כחול לשתל</div></div></div>
+          <button class="runtest">הרץ ▶</button>
+          <div class="decide">
+            <button class="dbtn bug" data-pick="bug">🐛 באג</button>
+            <button class="dbtn ok" data-pick="ok">✅ לא באג</button>
+          </div>
+          <div class="qresult"></div>
         </div>
-        <div class="qa" data-effect="badcolor" data-expect="catch" data-rclass="caught" data-result="🛡️ נחסם! אין צבע כזה. המערכת אומרת: 'הצבע bananna לא קיים'.">
-          <div class="qtop"><span class="qicon">🌈</span><div><div class="qcode">implant.color = "bananna"</div><div class="qsub">צבע שלא קיים</div></div></div>
-          <div class="guess"><button class="gbtn" data-g="catch">🛡️ תתפוס</button><button class="gbtn" data-g="slip">😬 תחמוק</button></div>
-          <button class="runtest">הרץ בדיקה ▶</button><div class="qresult"></div>
+
+        <div class="qa" data-effect="vanish" data-correct="bug"
+             data-correctnote="🎯 תפסתם באג! השתל פשוט נעלם מהמסך — והמערכת לא חסמה ולא התריעה. רופא יחשוב שהכל בסדר וינתח בעיוורון. צריך לחסום את זה — שתל בגודל 0 לא הגיוני."
+             data-wrongnote="🤔 הסתכלו שוב על המסך. השתל פשוט נעלם — בלי שום הודעת שגיאה, בלי שום התרעה. רופא יחשוב שהכל בסדר. זה באג מסוכן.">
+          <div class="qtop"><span class="qicon">0️⃣</span><div><div class="qcode">implant.size = 0</div><div class="qsub">רופא הקליד גודל אפס</div></div></div>
+          <button class="runtest">הרץ ▶</button>
+          <div class="decide">
+            <button class="dbtn bug" data-pick="bug">🐛 באג</button>
+            <button class="dbtn ok" data-pick="ok">✅ לא באג</button>
+          </div>
+          <div class="qresult"></div>
         </div>
-        <div class="qa" data-effect="vanish" data-expect="slip" data-rclass="slip" data-result="😬 חמק! המערכת לא תפסה — והשתל פשוט נעלם מהמסך. זה באג מסוכן! בלי שתל הרופא מנתח בעיוורון. הבאג הזה הוא שלכם לתפוס.">
-          <div class="qtop"><span class="qicon">0️⃣</span><div><div class="qcode">implant.size = 0</div><div class="qsub">גודל אפס</div></div></div>
-          <div class="guess"><button class="gbtn" data-g="catch">🛡️ תתפוס</button><button class="gbtn" data-g="slip">😬 תחמוק</button></div>
-          <button class="runtest">הרץ בדיקה ▶</button><div class="qresult"></div>
-        </div>
-        <div class="qa" data-effect="valid" data-expect="slip" data-rclass="valid" data-result="✅ עבר בהצלחה — וזה תקין לגמרי! לא כל 'לא נחסם' זה רע. QA זה גם לוודא שמה שאמור לעבוד — באמת עובד.">
-          <div class="qtop"><span class="qicon">✅</span><div><div class="qcode">implant.size = 110</div><div class="qsub">גודל תקין (קצת יותר גדול)</div></div></div>
-          <div class="guess"><button class="gbtn" data-g="catch">🛡️ תתפוס</button><button class="gbtn" data-g="slip">😬 תחמוק</button></div>
-          <button class="runtest">הרץ בדיקה ▶</button><div class="qresult"></div>
-        </div>
-        <p class="hint">המסר: QA דורש <b>עין חדה וסקרנות</b> — לתפוס בעיות לפני שהמוצר מגיע לחדר הניתוח.</p>
+
+        <p class="hint">המסר: בודק QA הוא <b>השופט האחרון</b> — לפעמים המערכת חוסמת יפה (וזה לא באג), ולפעמים היא מציגה משהו שגוי או נעלמת בשקט (וזה דווקא כן). צריך עין חדה.</p>
       </div>
     </div>
   </section>
@@ -490,6 +531,86 @@
     <p class="hint">המסר: רגולציה דורשת <b>חשיבה ביקורתית ואחריות על חיי אדם</b>. שומרי הסף מוודאים שמה שיוצא לעולם — באמת בטוח.</p>
   </section>
 
+  <!-- STATION 7 -->
+  <section class="slide" id="s6">
+    <span class="eyebrow"><span class="station-num">07</span> ☕ מאחורי הקלעים · החיים במשרד</span>
+    <h1 class="title">מה <span class="em">באמת</span> קורה במשרד?</h1>
+    <p class="lead">ראיתם את העבודה — עכשיו בואו נראה את <i>החיים</i>. מה באמת קורה כאן כל יום בין הקוד לבדיקות? תנחשו, נראה כמה דברים תפסתם נכון 😎</p>
+    <div class="mission"><b>המשימה שלכם:</b> ענו על כל שאלה — הסקר נטו ל-WIN. אחרי כל תשובה תראו מה התשובה האמיתית!</div>
+
+    <div id="polls">
+
+      <div class="poll" data-correct="2" data-note="ניחשתם 'סושי'? אתם צודקים. בכל הייטק שמכבד את עצמו — סושי הוא ברירת המחדל. למה? כי אף אחד לא מסכים על פיצה (בלי גלוטן, טבעוני, רגיש ללקטוז...) אבל סושי כולם אוהבים.">
+        <div class="qtitle"><span class="qemoji">🍕</span><div class="qtext">מה מזמינים לארוחת צוות?</div></div>
+        <div class="poll-opts">
+          <button class="popt" data-i="0">פיצה</button>
+          <button class="popt" data-i="1">המבורגרים</button>
+          <button class="popt" data-i="2">סושי</button>
+          <button class="popt" data-i="3">שווארמה</button>
+        </div>
+        <div class="reveal-note"></div>
+      </div>
+
+      <div class="poll" data-correct="4" data-note="התשובה האמיתית: כל הזמן ☕. ברצינות. מהרגע שמגיעים עד הרגע שיוצאים — תמיד יש מישהו בקפה. מכונת הקפה היא הלב הפועם של כל חברת הייטק.">
+        <div class="qtitle"><span class="qemoji">☕</span><div class="qtext">מה השעה הכי עמוסה במטבח?</div></div>
+        <div class="poll-opts">
+          <button class="popt" data-i="0">8:00 בבוקר</button>
+          <button class="popt" data-i="1">11:00 לפני הסטנדאפ</button>
+          <button class="popt" data-i="2">14:00 אחרי הצהריים</button>
+          <button class="popt" data-i="3">16:00 לפני שיוצאים</button>
+          <button class="popt" data-i="4">כל הזמן ☕</button>
+        </div>
+        <div class="reveal-note"></div>
+      </div>
+
+      <div class="poll" data-correct="3" data-note="כל אחד מתי שבא לו 🤷. בהייטק יש 'שעות גמישות' — מישהו מגיע ב-7, מישהו ב-10, מישהו ב-12. כל עוד העבודה נעשית, אף אחד לא בודק שעון. (מה שאומר שגם לפעמים יוצאים ב-22:00, אבל זה סיפור אחר.)">
+        <div class="qtitle"><span class="qemoji">🌅</span><div class="qtext">באיזו שעה מגיעים למשרד?</div></div>
+        <div class="poll-opts">
+          <button class="popt" data-i="0">8:00 בבוקר</button>
+          <button class="popt" data-i="1">9:00</button>
+          <button class="popt" data-i="2">10:00</button>
+          <button class="popt" data-i="3">כל אחד מתי שבא לו 🤷</button>
+        </div>
+        <div class="reveal-note"></div>
+      </div>
+
+      <div class="poll" data-correct="2" data-note="המעשנים יוצאים בערך כל שעה — וזה לא רע, כי שם נסגרות הרבה החלטות חשובות 😅. אגב, בהייטק 'הפסקת סיגריה' זה לפעמים גם 'הפסקת אוויר' — גם מי שלא מעשן יוצא להתאוורר.">
+        <div class="qtitle"><span class="qemoji">🚬</span><div class="qtext">כל כמה זמן יוצאים להפסקת סיגריה?</div></div>
+        <div class="poll-opts">
+          <button class="popt" data-i="0">פעם בבוקר</button>
+          <button class="popt" data-i="1">פעמיים ביום</button>
+          <button class="popt" data-i="2">כל שעה</button>
+          <button class="popt" data-i="3">לא מעשנים בכלל</button>
+        </div>
+        <div class="reveal-note"></div>
+      </div>
+
+      <div class="poll" data-correct="3" data-note="הכל. ממש הכל. סדרות בנטפליקס, חופשות, נדל\"ן, פוליטיקה, איפה הכי טעים בעיר — וכן, גם קצת על העבודה. ארוחת צהריים בהייטק היא לא רק אוכל, היא רשת חברתית.">
+        <div class="qtitle"><span class="qemoji">🍽️</span><div class="qtext">על מה מדברים בארוחת צהריים?</div></div>
+        <div class="poll-opts">
+          <button class="popt" data-i="0">קוד ועבודה</button>
+          <button class="popt" data-i="1">סדרות חדשות</button>
+          <button class="popt" data-i="2">חופשות הבאות</button>
+          <button class="popt" data-i="3">הכל מהכל 🌀</button>
+        </div>
+        <div class="reveal-note"></div>
+      </div>
+
+      <div class="poll" data-correct="1" data-note="היום זה היברידי: בערך 3 ימים במשרד, 2 מהבית. הקורונה שינתה הכל — ועכשיו זה השילוב המקובל בכמעט כל חברת הייטק. ימי המשרד הם בדרך כלל יומיים-שלושה לפגישות, וימי הבית — לעבודה מרוכזת.">
+        <div class="qtitle"><span class="qemoji">🏠</span><div class="qtext">כמה ימים בשבוע עובדים מהמשרד?</div></div>
+        <div class="poll-opts">
+          <button class="popt" data-i="0">5 ימים — תמיד במשרד</button>
+          <button class="popt" data-i="1">3 ימים — היברידי</button>
+          <button class="popt" data-i="2">יומיים</button>
+          <button class="popt" data-i="3">לגמרי מהבית</button>
+        </div>
+        <div class="reveal-note"></div>
+      </div>
+
+    </div>
+    <p class="hint">המסר: הייטק זה גם <b>אנשים, קפה, ושיחות</b>. התרבות חשובה בדיוק כמו הקוד.</p>
+  </section>
+
 </div>
 
 <div class="navbar">
@@ -583,21 +704,45 @@
   function resetImplant5(){ applyImplant(implant5,{color:'#8a93a5',scale:1,glow:false}); }
   resetImplant5();
   document.querySelectorAll('#qaList .qa').forEach(qa=>{
-    qa.querySelectorAll('.gbtn').forEach(b=>{ b.onclick=()=>{ qa.querySelectorAll('.gbtn').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); }; });
-    qa.querySelector('.runtest').onclick=()=>{
+    const runBtn=qa.querySelector('.runtest');
+    runBtn.onclick=()=>{
+      if(qa.classList.contains('ran')) return;
       const eff=qa.dataset.effect;
       resetImplant5();
-      if(eff==='giant'){ applyImplant(implant5,{color:'#FF5C6C',scale:2.0,glow:true}); qastatus.textContent='🐘 השתל ניסה להתנפח ענק... ויצא מהגוף!'; qastatus.className='status warn'; }
-      else if(eff==='negative'){ qastatus.textContent='➖ גודל שלילי? אי אפשר! המערכת חסמה.'; qastatus.className='status warn'; }
-      else if(eff==='badcolor'){ qastatus.textContent='🌈 "bananna"? אין צבע כזה. נחסם.'; qastatus.className='status warn'; }
-      else if(eff==='vanish'){ applyImplant(implant5,{scale:0}); qastatus.textContent='0️⃣ ...השתל נעלם. ואף התרעה לא קפצה!'; qastatus.className='status warn'; }
-      else if(eff==='valid'){ applyImplant(implant5,{color:'#3DDC97',scale:1.1,glow:true}); qastatus.textContent='✅ גודל תקין — הכל עובד חלק.'; qastatus.className='status ok'; }
-      const res=qa.querySelector('.qresult');
-      res.textContent=qa.dataset.result; res.className='qresult '+qa.dataset.rclass;
-      const sel=qa.querySelector('.gbtn.sel');
-      if(sel){ const ok=sel.dataset.g===qa.dataset.expect; res.textContent=(ok?'🎯 ניחשתם נכון! ':'🤔 הפתעה! ')+qa.dataset.result; }
-      qa.classList.add('done');
+      if(eff==='negative'){
+        qastatus.textContent='➖ הודעה על המסך: "אי אפשר להזין מספר שלילי". השתל לא השתנה.';
+        qastatus.className='status warn';
+      } else if(eff==='wrongcolor'){
+        applyImplant(implant5,{color:'#FF5C6C',scale:1,glow:true});
+        qastatus.textContent='🎨 הרופא ביקש כחול — אבל השתל יצא אדום על המסך!';
+        qastatus.className='status warn';
+      } else if(eff==='vanish'){
+        applyImplant(implant5,{scale:0});
+        qastatus.textContent='0️⃣ ...השתל פשוט נעלם מהמסך. שום הודעת שגיאה לא קפצה.';
+        qastatus.className='status warn';
+      }
+      qa.classList.add('ran');
+      runBtn.classList.add('ran');
+      runBtn.textContent='הורץ ✓';
     };
+    qa.querySelectorAll('.dbtn').forEach(btn=>{
+      btn.onclick=()=>{
+        if(qa.classList.contains('done')||!qa.classList.contains('ran')) return;
+        const pick=btn.dataset.pick;
+        const correct=qa.dataset.correct;
+        const ok=pick===correct;
+        btn.classList.add('picked');
+        const res=qa.querySelector('.qresult');
+        if(ok){
+          res.className='qresult correct';
+          res.textContent=qa.dataset.correctnote;
+        } else {
+          res.className='qresult wrong';
+          res.textContent=qa.dataset.wrongnote;
+        }
+        qa.classList.add('done');
+      };
+    });
   });
 
   /* STATION 6 — Regulation */
@@ -619,6 +764,22 @@
           box.innerHTML='<span class="big">לא נכון. החותמת הנכונה: '+correctText+'</span><span class="note">'+d.dataset.explain+'</span>';
         }
         d.classList.add('judged');
+      };
+    });
+  });
+
+  /* STATION 7 — Office life polls */
+  document.querySelectorAll('#polls .poll').forEach(poll=>{
+    const opts=poll.querySelectorAll('.popt');
+    const correctIdx=parseInt(poll.dataset.correct,10);
+    opts.forEach(opt=>{
+      opt.onclick=()=>{
+        if(poll.classList.contains('done')) return;
+        opts.forEach(o=>o.classList.remove('picked'));
+        opt.classList.add('picked');
+        opts[correctIdx].classList.add('reveal-correct');
+        poll.querySelector('.reveal-note').textContent=poll.dataset.note;
+        poll.classList.add('done');
       };
     });
   });
