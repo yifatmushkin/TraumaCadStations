@@ -26,16 +26,31 @@
   }
   .topbar{
     position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;
-    padding:14px clamp(14px,4vw,40px);
+    padding:10px clamp(10px,3vw,40px);
     background:linear-gradient(180deg, rgba(8,11,22,.95), rgba(8,11,22,.7) 70%, transparent);
     backdrop-filter:blur(6px);
   }
-  .brand{font-family:"Rubik";font-weight:900;letter-spacing:.5px;font-size:clamp(15px,2.4vw,19px);display:flex;align-items:center;gap:8px;white-space:nowrap;}
-  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:var(--glow);}
-  .pills{display:flex;gap:7px;margin-inline-start:auto;flex-wrap:wrap;justify-content:flex-end;}
-  .pill{font-family:"Rubik";font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:999px;cursor:pointer;background:var(--surface);border:1px solid var(--line);color:var(--muted);transition:.25s;display:flex;align-items:center;gap:6px;}
-  .pill .num{opacity:.6;font-size:11px;}
+  .brand{font-family:"Rubik";font-weight:900;letter-spacing:.5px;font-size:15px;display:flex;align-items:center;gap:7px;white-space:nowrap;flex-shrink:0;}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:var(--glow);}
+  .pills{
+    display:flex;gap:6px;margin-inline-start:auto;
+    flex-wrap:nowrap;overflow-x:auto;
+    -ms-overflow-style:none;scrollbar-width:none;
+    padding:2px 0;
+    mask-image:linear-gradient(to left, transparent 0, #000 14px);
+    -webkit-mask-image:linear-gradient(to left, transparent 0, #000 14px);
+  }
+  .pills::-webkit-scrollbar{display:none;}
+  .pill{font-family:"Rubik";font-weight:700;font-size:12px;padding:6px 10px;border-radius:999px;cursor:pointer;background:var(--surface);border:1px solid var(--line);color:var(--muted);transition:.25s;display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0;}
+  .pill .num{opacity:.55;font-size:10.5px;}
   .pill.active{color:#04121A;background:var(--cyan);border-color:var(--cyan);box-shadow:var(--glow);}
+  @media(max-width:540px){
+    .brand{font-size:13px;}
+    .brand .dot{width:7px;height:7px;}
+    .pill{font-size:11.5px;padding:5px 9px;}
+    .pill .num{display:none;}
+    .topbar{gap:6px;}
+  }
 
   .stage{position:relative;width:100%;}
   .slide{display:none;min-height:calc(100vh - 64px);padding:clamp(18px,4vw,46px) clamp(16px,5vw,60px) 120px;max-width:980px;margin:0 auto;animation:fade .45s ease;}
@@ -497,6 +512,7 @@
     counter.textContent='תחנה '+(cur+1)+' מתוך '+slides.length;
     prevBtn.disabled=cur===0;
     nextBtn.textContent = cur===slides.length-1 ? 'סיום ✓' : 'הבא ←';
+    if(pills[cur]) pills[cur].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
     window.scrollTo({top:0,behavior:'smooth'});
   }
   prevBtn.onclick=()=>show(cur-1);
