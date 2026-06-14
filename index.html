@@ -743,7 +743,7 @@
   <section class="slide" id="s7">
     <span class="eyebrow"><span class="station-num">08</span> 👑 פינת המנכ"לית</span>
     <h1 class="title">שאלו אותי <span class="em">הכל</span></h1>
-    <p class="lead">סיימתם את הסיור — ראיתם איך מוצר נולד, נבנה, נבדק, ומגיע לחדר ניתוח. עכשיו הבמה שלכם: לחצו על שאלה כדי "לשאול" אותי, ואני אענה לכם כאן בקול 🎤</p>
+    <p class="lead">סיימתם את הסיור — ראיתם איך מוצר נולד, נבנה, נבדק, ומגיע לחדר ניתוח. עכשיו הבמה שלכם: בחרו שאלה שמסקרנת אתכם, ואני אענה לכם עליה 🎤</p>
 
     <div class="ceo-wrap">
       <div class="ceoq-grid" id="ceoqGrid">
@@ -763,10 +763,6 @@
           <span class="ceoq-em">🎒</span>
           <span class="ceoq-text">מה היית רוצה שמישהו היה אומר לך בגיל שלנו?</span>
         </button>
-      </div>
-
-      <div class="ceoq-answer" id="ceoqAnswer">
-        <span class="ceoa-hint">👆 בחרו שאלה למעלה</span>
       </div>
 
       <div class="closing-q" id="closingQ">
@@ -1033,19 +1029,10 @@
   });
 
   /* STATION 8 — CEO Q&A + closing question */
-  const ceoAnswers=[
-    {em:'🛤️', text:'[כאן תספרי את הסיפור שלך — איך התחלת, באיזה תפקיד, ואיך הגעת לנהל חברה. כמה משפטים אישיים.]', note:'טיפ: ספרי בקול — זה הרגע שהם יזכרו.'},
-    {em:'😅', text:'[שתפי רגע אמיתי שהיה מאתגר — החלטה קשה, טעות שלמדת ממנה, או תקופה לחוצה. אותנטיות מנצחת.]', note:'טיפ: רגע של פגיעוּת אמיתי שווה יותר מאלף עצות.'},
-    {em:'💡', text:'[מה הפתיע אותך? אולי שהתפקיד פחות "טכני" ויותר על אנשים? שהדרך לא ישרה? משהו שלא ציפית לו.]', note:'טיפ: זה מקום מצוין לשבור סטריאוטיפים על הייטק.'},
-    {em:'🎒', text:'[מה היית אומרת לעצמך בגיל 16? אולי "לא חייבים לדעת הכל עכשיו", או "תנסו, גם אם מפחיד". מסר אישי וחם.]', note:'טיפ: דברו ישירות אליהם — "אם הייתי אתכם היום...".'}
-  ];
-  const ceoAnswerBox=document.getElementById('ceoqAnswer');
   document.querySelectorAll('#ceoqGrid .ceoq').forEach(btn=>{
     btn.onclick=()=>{
       document.querySelectorAll('#ceoqGrid .ceoq').forEach(c=>c.classList.remove('picked'));
       btn.classList.add('picked');
-      const a=ceoAnswers[parseInt(btn.dataset.q,10)];
-      ceoAnswerBox.innerHTML='<div><span class="ans-em">'+a.em+'</span>'+a.text+'<span class="note">'+a.note+'</span></div>';
     };
   });
 
